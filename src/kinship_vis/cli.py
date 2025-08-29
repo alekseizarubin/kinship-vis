@@ -11,7 +11,10 @@ def _cli() -> argparse.Namespace:
     p = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     p.add_argument("genome_file", help="PLINK *.genome or KING *.kin0")
     p.add_argument("--output", default="kinship_graph", help="output file prefix (without extension)")
-    p.add_argument("--samplesheet", help="TSV/CSV with a required column: sample_id")
+    p.add_argument(
+        "--samplesheet",
+        help="Sample sheet (TSV/CSV/whitespace; delimiter auto-detected) with required column: sample_id",
+    )
     p.add_argument("--label-col", help="column name to use for node labels (defaults to sample_id)")
     p.add_argument("--haplogroup-Y",  dest="hg_y")
     p.add_argument("--haplogroup-MT", dest="hg_mt")
