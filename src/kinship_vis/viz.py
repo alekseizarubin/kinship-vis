@@ -120,7 +120,34 @@ def plot_html(G, comp, cid, args, attrs):
         marker=dict(size=int(args.node_size_html), color=fill, line=dict(width=2, color=border)),
         showlegend=False)
 
-    fig = go.Figure(edge_traces + [node],
+    legend_traces = []
+    if args.legend:
+        mt_colors: Dict[str, Tuple[float, float, float]] = {}
+        y_colors: Dict[str, Tuple[float, float, float]] = {}
+        for n in sg.nodes():
+            mt_colors[attrs[n]["hgMT"]] = attrs[n]["colMT"]
+            y_colors[attrs[n]["hgY"]] = attrs[n]["colY"]
+
+        legend_traces.append(go.Scatter(x=[None], y=[None], mode="markers",
+                                        marker=dict(size=0, color="rgba(0,0,0,0)"),
+                                        name="MT haplogroups", hoverinfo="none"))
+        for h in sorted(mt_colors):
+            legend_traces.append(go.Scatter(x=[None], y=[None], mode="markers",
+                                            marker=dict(size=int(args.node_size_html),
+                                                        color=mt_colors[h],
+                                                        line=dict(width=1, color="black")),
+                                            name=h, hoverinfo="none"))
+        legend_traces.append(go.Scatter(x=[None], y=[None], mode="markers",
+                                        marker=dict(size=0, color="rgba(0,0,0,0)"),
+                                        name="Y haplogroups", hoverinfo="none"))
+        for h in sorted(y_colors):
+            legend_traces.append(go.Scatter(x=[None], y=[None], mode="markers",
+                                            marker=dict(size=int(args.node_size_html),
+                                                        color="white",
+                                                        line=dict(width=2, color=y_colors[h])),
+                                            name=h, hoverinfo="none"))
+
+    fig = go.Figure(edge_traces + legend_traces + [node],
         layout=go.Layout(title=f"Kinship component {cid}",
                          paper_bgcolor="white", plot_bgcolor="white",
                          xaxis=dict(visible=False), yaxis=dict(visible=False),
