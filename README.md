@@ -3,7 +3,7 @@
 
 Visualize pairwise kinship results (PLINK `.genome` or KING `.kin0`) as component graphs with:
 - Static PNG/TIFF **(Matplotlib)** — edges colored by kinship class, nodes filled by MT haplogroup and outlined by Y haplogroup.
-- Interactive HTML **(Plotly)** — same color scheme, hover tooltips, optional legend.
+- Interactive HTML **(Plotly)** — same color scheme, hover tooltips, optional legend including haplogroups.
 
 ## Installation
 ```bash
@@ -40,7 +40,7 @@ kinship-vis results.genome \
   --samplesheet samples.tsv --label-col short_id \
   --haplogroup-Y y_hg.hg \
   --haplogroup-MT mt_hg.txt \
-  --output out/kinship --legend
+  --output out/kinship --legend  # adds legend for edges and haplogroups
 ```
 
 ### How to obtain haplogroups (suggested tools)
