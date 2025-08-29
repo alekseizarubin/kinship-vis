@@ -4,8 +4,10 @@ import os, sys
 import pandas as pd
 
 def _read_table(path: str, **kwargs) -> pd.DataFrame:
-    """Thin wrapper over pandas.read_csv with delimiter sniffing; supports .gz and http(s)."""
-    return pd.read_csv(path, sep=None, engine="python", **kwargs)
+    """Thin wrapper over pandas.read_csv that treats consecutive whitespace as a single delimiter; supports .gz and http(s)."""
+    # Allow caller to override the separator while defaulting to whitespace
+    sep = kwargs.pop("sep", r"\s+")
+    return pd.read_csv(path, sep=sep, engine="python", **kwargs)
 
 def read_pairs_table(fp: str) -> pd.DataFrame:
     """
@@ -15,7 +17,7 @@ def read_pairs_table(fp: str) -> pd.DataFrame:
     # Allow URLs and local files; only error if it's a local path that doesn't exist
     if not (fp.startswith("http://") or fp.startswith("https://")) and not os.path.exists(fp):
         sys.exit(f"[ERROR] genome/kinship file not found: {fp}")
-    df = _read_table(fp, dtype=str)
+    df = _read_table(fp, sep=r"\s+", dtype=str)
     cols = set(df.columns)
 
     # PLINK .genome
