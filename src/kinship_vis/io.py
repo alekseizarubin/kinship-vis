@@ -1,6 +1,6 @@
 
 from __future__ import annotations
-import os, sys
+import os
 import pandas as pd
 
 def _read_table(path: str, **kwargs) -> pd.DataFrame:
@@ -16,7 +16,7 @@ def read_pairs_table(fp: str) -> pd.DataFrame:
     """
     # Allow URLs and local files; only error if it's a local path that doesn't exist
     if not (fp.startswith("http://") or fp.startswith("https://")) and not os.path.exists(fp):
-        sys.exit(f"[ERROR] genome/kinship file not found: {fp}")
+        raise FileNotFoundError(f"genome/kinship file not found: {fp}")
     df = _read_table(fp, sep=r"\s+", dtype=str)
     cols = set(df.columns)
 
@@ -34,7 +34,7 @@ def read_pairs_table(fp: str) -> pd.DataFrame:
         out["Z1"] = 0.0  # KING lacks Z1
         return out[["IID1","IID2","PI_HAT","Z1"]]
 
-    sys.exit("[ERROR] Unrecognized pairs file; expected PLINK .genome (IID1 IID2 PI_HAT [Z1]) or KING .kin0 (ID1 ID2 Kinship).")
+    raise ValueError("Unrecognized pairs file; expected PLINK .genome (IID1 IID2 PI_HAT [Z1]) or KING .kin0 (ID1 ID2 Kinship).")
 
 def read_haplogroups(fp: str):
     """Read two-column file: <sample><tab><haplogroup> (no header). Returns Series index=sample."""

@@ -1,5 +1,6 @@
 
 import io, pandas as pd
+import pytest
 from kinship_vis.graph import build_graph
 from kinship_vis.io import read_pairs_table
 
@@ -18,3 +19,15 @@ def test_read_king_kin0(tmp_path):
     df = read_pairs_table(str(kin_path))
     assert {"IID1","IID2","PI_HAT","Z1"}.issubset(df.columns)
     assert df["PI_HAT"].iloc[0] == 1.0
+
+
+def test_read_pairs_missing_file():
+    with pytest.raises(FileNotFoundError):
+        read_pairs_table("/no/such/file")
+
+
+def test_read_pairs_bad_format(tmp_path):
+    bad = tmp_path / "bad.txt"
+    bad.write_text("a b c\n1 2 3\n", encoding="utf-8")
+    with pytest.raises(ValueError):
+        read_pairs_table(str(bad))
