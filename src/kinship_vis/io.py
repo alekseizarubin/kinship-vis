@@ -1,12 +1,43 @@
 
 from __future__ import annotations
 import os
+import gzip
+import urllib.request
 import pandas as pd
 
+
 def _read_table(path: str, **kwargs) -> pd.DataFrame:
-    """Thin wrapper over pandas.read_csv that treats consecutive whitespace as a single delimiter; supports .gz and http(s)."""
-    # Allow caller to override the separator while defaulting to whitespace
-    sep = kwargs.pop("sep", r"\s+")
+    """Thin wrapper over :func:`pandas.read_csv` with simple delimiter detection.
+
+    If ``sep`` is not provided, the first line of the file is inspected:
+
+    * contains `","`  → comma-delimited
+    * contains `"\t"` → tab-delimited
+    * otherwise        → consecutive whitespace is treated as a single delimiter
+
+    Supports transparent reading of ``.gz`` files and ``http(s)`` URLs.
+    """
+
+    sep = kwargs.pop("sep", None)
+    if sep is None:
+        # Detect separator by peeking at the first line
+        if path.startswith("http://") or path.startswith("https://"):
+            fh = urllib.request.urlopen(path)
+            if path.endswith(".gz"):
+                fh = gzip.GzipFile(fileobj=fh)  # type: ignore[assignment]
+            first = fh.readline().decode("utf-8")
+            fh.close()
+        else:
+            opener = gzip.open if path.endswith(".gz") else open
+            with opener(path, "rt") as fh:
+                first = fh.readline()
+        if "," in first:
+            sep = ","
+        elif "\t" in first:
+            sep = "\t"
+        else:
+            sep = r"\s+"
+
     return pd.read_csv(path, sep=sep, engine="python", **kwargs)
 
 def read_pairs_table(fp: str) -> pd.DataFrame:

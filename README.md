@@ -22,6 +22,7 @@ kinship-vis results.genome \
 Input tips:
 - **PLINK .genome** must have `IID1 IID2 PI_HAT [Z1]`.
 - **KING .kin0** with columns `ID1 ID2 Kinship` is supported; `PI_HAT` is computed as `2*Kinship` (Z1 is absent).
+- **Samplesheet** (optional) can be TSV, CSV, or whitespace-delimited; a `sample_id` column is required and the delimiter is auto-detected.
 
 ## Haplogroup overlays (optional)
 
