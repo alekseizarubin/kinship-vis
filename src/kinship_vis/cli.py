@@ -1,6 +1,7 @@
 
 from __future__ import annotations
 import argparse
+import sys
 import networkx as nx
 from .io import read_pairs_table, read_haplogroups, read_samplesheet
 from .graph import build_graph
@@ -36,7 +37,11 @@ def _cli() -> argparse.Namespace:
 
 def main():
     a = _cli()
-    df = read_pairs_table(a.genome_file)
+    try:
+        df = read_pairs_table(a.genome_file)
+    except (FileNotFoundError, ValueError) as e:
+        print(f"[ERROR] {e}", file=sys.stderr)
+        sys.exit(1)
     G = build_graph(df, a.threshold1, a.threshold2, a.z1_threshold,
                     a.max_degree_fraction, a.drop_below_threshold2, a.verbose)
     if G.number_of_edges() == 0:
