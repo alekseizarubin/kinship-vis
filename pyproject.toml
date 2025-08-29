@@ -9,7 +9,7 @@ description = "Kinship graph visualizer for PLINK .genome and KING .kin0 with PN
 readme = {file = "README.md", content-type = "text/markdown"}
 requires-python = ">=3.9"
 license = {text = "MIT"}
-authors = [{name = "Aleksei Zarubin", email = "REPLACE_WITH_YOUR_EMAIL"}]
+authors = [{name = "Aleksei Zarubin", email = "a.a.zarubin@gmail.com"}]
 keywords = ["genomics", "kinship", "IBD", "visualization", "population genetics"]
 classifiers = [
   "Programming Language :: Python :: 3",
@@ -33,9 +33,9 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/YOUR_GITHUB_USERNAME/kinship-vis"
-Issues = "https://github.com/YOUR_GITHUB_USERNAME/kinship-vis/issues"
-Repository = "https://github.com/YOUR_GITHUB_USERNAME/kinship-vis"
+Homepage = "https://github.com/alekseizarubin/kinship-vis"
+Issues = "https://github.com/alekseizarubin/kinship-vis/issues"
+Repository = "https://github.com/alekseizarubin/kinship-vis"
 
 [project.scripts]
 kinship-vis = "kinship_vis.cli:main"
