@@ -38,14 +38,20 @@ def read_pairs_table(fp: str) -> pd.DataFrame:
 
 def read_haplogroups(fp: str):
     """Read two-column file: <sample><tab><haplogroup> (no header). Returns Series index=sample."""
-    s = pd.read_csv(fp, sep=None, engine="python", header=None, usecols=[0,1], names=["sample","hg"], dtype=str)
+    s = _read_table(
+        fp,
+        header=None,
+        usecols=[0, 1],
+        names=["sample", "hg"],
+        dtype=str,
+    )
     s["sample"] = s["sample"].astype(str).str.strip()
     s["hg"] = s["hg"].astype(str).str.strip()
     return s.set_index("sample")["hg"]
 
 def read_samplesheet(fp: str) -> pd.DataFrame:
     """Read a samplesheet that must contain a 'sample_id' column; trims whitespace for object columns."""
-    df = pd.read_csv(fp, sep=None, engine="python", dtype=str)
+    df = _read_table(fp, dtype=str)
     if "sample_id" not in df.columns:
         raise ValueError("samplesheet must contain column 'sample_id'")
     return df.apply(lambda c: c.str.strip() if c.dtype == "object" else c)
