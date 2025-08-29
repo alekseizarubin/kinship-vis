@@ -10,6 +10,9 @@ Visualize pairwise kinship results (PLINK `.genome` or KING `.kin0`) as componen
 pip install kinship-vis
 ```
 
+> **Note:** Until the scientific Python stack fully supports NumPy 2 and Plotly 6, this package
+> requires `numpy<2` and `plotly<6`. Ensure that your environment uses these versions to avoid compatibility issues.
+
 ## Quick start
 ```bash
 kinship-vis results.genome \
