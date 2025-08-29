@@ -1,0 +1,36 @@
+
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "kinship-vis"
+version = "0.1.1"
+description = "Kinship graph visualizer for PLINK .genome and KING .kin0 with PNG/TIFF and interactive HTML outputs"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [{name = "Aleksei", email = "example@example.com"}]
+keywords = ["genomics", "kinship", "IBD", "visualization", "population genetics"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Topic :: Scientific/Engineering :: Bio-Informatics",
+  "Topic :: Scientific/Engineering :: Visualization",
+  "Framework :: Matplotlib"
+]
+dependencies = [
+  "pandas>=1.5",
+  "numpy>=1.23",
+  "networkx>=3.0",
+  "matplotlib>=3.5",
+  "plotly>=5.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/yourname/kinship-vis"
+Issues = "https://github.com/yourname/kinship-vis/issues"
+
+[project.scripts]
+kinship-vis = "kinship_vis.cli:main"
