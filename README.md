@@ -20,12 +20,6 @@ pip install kinship-vis
 pip install "git+https://github.com/YOUR_GITHUB_USERNAME/kinship-vis.git"
 ```
 
-### 3) Conda (Bioconda)
-Once the recipe is merged to **bioconda**, you’ll be able to do:
-```bash
-conda install -c conda-forge -c bioconda kinship-vis
-```
-
 **Python/NumPy note:** until the scientific Python stack fully supports NumPy 2, this package pins `numpy<2` to avoid ABI issues.
 
 ---
